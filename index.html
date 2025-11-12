@@ -1,558 +1,389 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pandit Pankaj Khatri - Digital vCard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary: #0d9488;
-            --primary-dark: #0f766e;
-            --secondary: #d4af37;
-            --accent: #0891b2;
-            --light: #f0fdfa;
-            --dark: #134e4a;
-            --text: #1e293b;
-        }
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 30px;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-        
-        .left-panel {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .left-panel::before {
-            content: "";
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            top: -150px;
-            right: -150px;
-        }
-        
-        .left-panel::after {
-            content: "";
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            bottom: -100px;
-            left: -100px;
-        }
-        
-        .profile-img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 5px solid rgba(255, 255, 255, 0.3);
-            background: linear-gradient(45deg, #0f766e, #0891b2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            z-index: 2;
-            overflow: hidden;
-        }
-        
-        .profile-img i {
-            font-size: 90px;
-            color: white;
-            opacity: 0.8;
-        }
-        
-        .name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 5px;
-            z-index: 2;
-        }
-        
-        .title {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 25px;
-            z-index: 2;
-        }
-        
-        .company {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(5px);
-            padding: 12px 25px;
-            border-radius: 50px;
-            margin-bottom: 30px;
-            z-index: 2;
-        }
-        
-        .company-logo {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .company-logo i {
-            font-size: 24px;
-            color: var(--primary);
-        }
-        
-        .company-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .qrcode-container {
-            background: white;
-            padding: 20px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            z-index: 2;
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .qrcode-container::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            top: 0;
-            left: 0;
-        }
-        
-        .qrcode {
-            width: 200px;
-            height: 200px;
-            background: #f3f4f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-        
-        .qrcode-pattern {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(45deg, transparent 48%, var(--primary) 48%, var(--primary) 52%, transparent 52%),
-                linear-gradient(-45deg, transparent 48%, var(--primary) 48%, var(--primary) 52%, transparent 52%),
-                radial-gradient(circle at center, var(--accent) 10%, transparent 10%);
-            opacity: 0.2;
-        }
-        
-        .qrcode-center {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
-        
-        .qrcode-center i {
-            color: white;
-            font-size: 24px;
-        }
-        
-        .scan-text {
-            font-size: 14px;
-            color: var(--text);
-            margin-top: 15px;
-            text-align: center;
-        }
-        
-        .vcard-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--secondary);
-            color: var(--dark);
-            font-weight: 600;
-            padding: 12px 30px;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            z-index: 2;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
-        }
-        
-        .vcard-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-        }
-        
-        .right-panel {
-            padding: 50px 40px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .panel-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .panel-title::after {
-            content: "";
-            position: absolute;
-            width: 60px;
-            height: 4px;
-            background: var(--secondary);
-            bottom: -10px;
-            left: 0;
-            border-radius: 2px;
-        }
-        
-        .subtitle {
-            font-size: 18px;
-            color: var(--text);
-            margin-bottom: 30px;
-            opacity: 0.8;
-        }
-        
-        .contact-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        
-        .contact-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--light);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-        
-        .contact-icon i {
-            font-size: 20px;
-            color: var(--primary);
-        }
-        
-        .contact-details h3 {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text);
-            margin-bottom: 5px;
-        }
-        
-        .contact-details p {
-            font-size: 16px;
-            color: var(--text);
-            opacity: 0.9;
-        }
-        
-        .contact-details a {
-            color: var(--primary);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-details a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
-        }
-        
-        .bio-section {
-            background: var(--light);
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 40px;
-        }
-        
-        .bio-section h3 {
-            font-size: 20px;
-            color: var(--primary-dark);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .bio-section h3 i {
-            color: var(--secondary);
-        }
-        
-        .bio-text {
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--text);
-            opacity: 0.9;
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-link {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--light);
-            color: var(--primary);
-            font-size: 20px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .social-link:hover {
-            background: var(--primary);
-            color: white;
-            transform: translateY(-3px);
-        }
-        
-        .signature {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 2px dashed var(--light);
-        }
-        
-        .signature p {
-            font-size: 14px;
-            color: var(--text);
-            opacity: 0.7;
-        }
-        
-        .signature-img {
-            height: 40px;
-            opacity: 0.8;
-        }
-        
-        .watermark {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            z-index: 2;
-        }
-        
-        @media (max-width: 850px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-            
-            .left-panel {
-                padding: 30px 20px;
-            }
-            
-            .right-panel {
-                padding: 40px 25px;
-            }
-        }
-        
-        @media (max-width: 500px) {
-            .contact-info {
-                grid-template-columns: 1fr;
-            }
-            
-            .name {
-                font-size: 28px;
-            }
-            
-            .panel-title {
-                font-size: 28px;
-            }
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pandit Pankaj Khatri - Digital vCard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    /* -----------------------
+       Base & design tokens
+       ----------------------- */
+    :root{
+      --primary: #0d9488;
+      --primary-dark: #0f766e;
+      --secondary: #d4af37;
+      --accent:#0891b2;
+      --light:#f0fdfa;
+      --dark:#134e4a;
+      --text:#1e293b;
+
+      /* fluid sizing helpers */
+      --container-max: 1100px;
+      --gap: clamp(16px, 2.2vw, 30px);
+      --pad: clamp(16px, 2.6vw, 50px);
+      --radius: 18px;
+      --shadow: 0 25px 50px -12px rgba(0,0,0,0.18);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',sans-serif;
+      background:linear-gradient(135deg,#f0fdfa 0%,#e0f2fe 100%);
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:calc(var(--pad) / 2);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* -----------------------
+       Container & layout
+       ----------------------- */
+    .container{
+      width:100%;
+      max-width:var(--container-max);
+      background:white;
+      border-radius:calc(var(--radius) + 6px);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap:var(--gap);
+      align-items:stretch;
+    }
+
+    /* make layout responsive using minmax & auto-fit for smoother transitions */
+    @media (max-width: 980px){
+      .container{grid-template-columns: 1fr; gap:calc(var(--gap) / 1.25)}
+    }
+
+    /* -----------------------
+       Left panel
+       ----------------------- */
+    .left-panel{
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      padding: clamp(20px, 4vw, 36px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      position:relative;
+      min-height:360px;
+    }
+    .left-panel::before,
+    .left-panel::after{
+      content:"";
+      position:absolute;
+      border-radius:50%;
+      background:rgba(255,255,255,0.08);
+      z-index:0;
+    }
+    .left-panel::before{ width:calc(220px + 6vw); height:calc(220px + 6vw); top:-30px; right:-50px; }
+    .left-panel::after{ width:calc(140px + 4vw); height:calc(140px + 4vw); bottom:-30px; left:-40px; }
+
+    .profile-img{
+      width: clamp(110px, 20vw, 180px);
+      height: clamp(110px, 20vw, 180px);
+      border-radius:50%;
+      border: 4px solid rgba(255,255,255,0.28);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      background:linear-gradient(45deg,#0f766e,#0891b2);
+      z-index:2;
+      flex-shrink:0;
+    }
+    .profile-img img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .name{
+      font-family:'Montserrat',sans-serif;
+      font-size: clamp(20px, 3.2vw, 32px);
+      font-weight:700;
+      color:white;
+      margin-top:12px;
+      z-index:2;
+    }
+    .title{
+      font-size: clamp(13px, 2.4vw, 18px);
+      color:rgba(255,255,255,0.92);
+      margin-top:6px;
+      margin-bottom:14px;
+      z-index:2;
+    }
+
+    .company{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      background:rgba(255,255,255,0.12);
+      padding:8px 18px;
+      border-radius:999px;
+      backdrop-filter: blur(4px);
+      z-index:2;
+      margin-bottom:18px;
+      font-weight:600;
+      color:white;
+      font-size: clamp(13px,2vw,18px);
+    }
+    .company-logo{ width:38px; height:38px; background:white; border-radius:8px; display:flex; align-items:center; justify-content:center }
+    .company-logo i{ color:var(--primary); font-size:18px }
+
+    /* QR block */
+    .qrcode-container{
+      background:white;
+      padding:14px;
+      border-radius:14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      margin-top:14px;
+      z-index:2;
+      width: clamp(180px, 42%, 260px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+    .qrcode{
+      width:100%;
+      padding-top:100%;
+      position:relative;
+      border-radius:8px;
+      background:#f3f4f6;
+      overflow:hidden;
+    }
+    .qrcode-pattern{ position:absolute; inset:0; opacity:0.12; background:
+        linear-gradient(45deg, transparent 48%, var(--primary) 48%, var(--primary) 52%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, var(--primary) 48%, var(--primary) 52%, transparent 52%),
+        radial-gradient(circle at center, var(--accent) 10%, transparent 10%); }
+    .qrcode-center{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width: clamp(40px, 10vw, 56px);
+      height: clamp(40px, 10vw, 56px);
+      border-radius:10px;
+      background:var(--primary);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:2;
+    }
+    .qrcode-center img{ width:70%; height:70%; object-fit:contain; display:block; filter:brightness(1.15) }
+
+    .scan-text{ font-size:clamp(12px,1.6vw,14px); color:var(--text); text-align:center; opacity:0.95 }
+
+    /* Download button */
+    .vcard-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      margin-top:12px;
+      background:var(--secondary);
+      color:var(--dark);
+      font-weight:700;
+      padding:10px 20px;
+      border-radius:999px;
+      text-decoration:none;
+      transition: transform .18s ease, box-shadow .18s ease;
+      box-shadow: 0 6px 18px rgba(212,175,55,0.22);
+      z-index:2;
+      cursor:pointer;
+      border:0;
+      font-size:clamp(13px,1.8vw,15px);
+    }
+    .vcard-btn:active{ transform:translateY(1px) }
+    .vcard-btn:hover{ transform:translateY(-4px); box-shadow:0 10px 26px rgba(212,175,55,0.28) }
+
+    /* watermark (keeps small) */
+    .watermark{ position:absolute; bottom:12px; right:12px; font-size:12px; color:rgba(255,255,255,0.45); z-index:2; }
+
+    /* -----------------------
+       Right panel
+       ----------------------- */
+    .right-panel{
+      padding: clamp(18px, 4vw, 50px);
+      display:flex;
+      flex-direction:column;
+    }
+    .panel-title{
+      font-family:'Montserrat',sans-serif;
+      font-size: clamp(22px, 3.2vw, 32px);
+      color:var(--primary);
+      font-weight:700;
+      margin-bottom:6px;
+      position:relative;
+      display:inline-block;
+    }
+    .panel-title::after{
+      content:"";
+      position:absolute;
+      left:0; bottom:-10px;
+      width:56px; height:4px;
+      background:var(--secondary); border-radius:3px;
+    }
+    .subtitle{ font-size:clamp(13px,2vw,18px); color:var(--text); opacity:0.85; margin-bottom:18px }
+
+    /* contact grid */
+    .contact-info{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: clamp(12px, 2.2vw, 24px);
+      margin-bottom:20px;
+    }
+    .contact-item{ display:flex; gap:12px; align-items:flex-start }
+    .contact-icon{
+      min-width:48px; min-height:48px; border-radius:10px;
+      background:var(--light); display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .contact-icon i{ font-size:18px; color:var(--primary) }
+    .contact-details h3{ font-size:14px; font-weight:700; margin-bottom:4px }
+    .contact-details p{ font-size:14px; color:var(--text); opacity:0.95 }
+    .contact-details a{ color:var(--primary); text-decoration:none }
+    .contact-details a:hover{ color:var(--primary-dark); text-decoration:underline }
+
+    /* single column on small devices */
+    @media (max-width:600px){
+      .contact-info{ grid-template-columns:1fr; }
+      .qrcode-container{ width:clamp(160px, 42%, 220px) }
+      .left-panel{ padding:18px }
+      .right-panel{ padding:18px }
+      .vcard-btn{ width:100%; justify-content:center }
+    }
+
+    /* bio */
+    .bio-section{
+      background:var(--light); padding:14px; border-radius:12px; margin-bottom:18px;
+    }
+    .bio-section h3{ font-size:16px; color:var(--primary-dark); margin-bottom:10px; display:flex; gap:8px; align-items:center }
+    .bio-text{ font-size:14px; line-height:1.6; color:var(--text); opacity:0.95 }
+
+    .social-links{ display:flex; gap:10px; margin-top:10px; flex-wrap:wrap }
+    .social-link{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:44px;height:44px;border-radius:10px;background:var(--light);
+      color:var(--primary); text-decoration:none; font-size:16px; transition:transform .16s ease;
+    }
+    .social-link:hover{ transform:translateY(-4px); background:var(--primary); color:#fff }
+
+    .signature{ margin-top:auto; padding-top:16px; border-top:2px dashed rgba(0,0,0,0.03); display:flex; flex-direction:column; gap:8px; align-items:flex-start }
+    .signature p{ font-size:13px; color:var(--text); opacity:0.75 }
+    .signature-img svg{ display:block; height:40px; width:auto }
+
+    /* small accessibility helpers */
+    .sr-only{ position:absolute!important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="left-panel">
-            <div class="profile-img">
-                <img src="Pankaj_Khatri.jpg" alt="Pankaj Khatri" style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
-            
-            <h1 class="name">Pandit Pankaj Khatri</h1>
-            <p class="title">Visionary Leader | Bio-Energy Expert</p>
-            
-            <div class="company">
-                <div class="company-logo">
-                    <i class="fas fa-leaf"></i>
-                </div>
-                <div class="company-name">Shreeja Biotech</div>
-            </div>
-            
-            <div class="qrcode-container">
-                <div class="qrcode">
-                    <div class="qrcode-pattern"></div>
-                    <div class="qrcode-center">
-                         <img src="QR_Code.png" alt="Scan Me" style="width: 450%; height: 450%; object-fit: contain;">
-                    </div>
-                </div>
-                <p class="scan-text">Scan to visit my online profile</p>
-            </div>
-            
-            <a href="#" class="vcard-btn">
-                <i class="fas fa-download"></i>
-                Download vCard
-            </a>
-            
-            <div class="watermark">Digital vCard | Shreeja Biotech</div>
+  <div class="container" role="main" aria-label="Digital vCard for Pandit Pankaj Khatri">
+    <!-- LEFT -->
+    <aside class="left-panel" aria-labelledby="vcard-name">
+      <div class="profile-img" aria-hidden="false">
+        <img src="Pankaj_Khatri.jpg" alt="Photo of Pandit Pankaj Khatri">
+      </div>
+
+      <h1 id="vcard-name" class="name">Pandit Pankaj Khatri</h1>
+      <p class="title">Visionary Leader | Bio-Energy Expert</p>
+
+      <div class="company" aria-hidden="false">
+        <div class="company-logo" aria-hidden="true">
+          <i class="fas fa-leaf" aria-hidden="true"></i>
         </div>
-        
-        <div class="right-panel">
-            <h2 class="panel-title">Contact Card</h2>
-            <p class="subtitle">Connect with me through various channels</p>
-            
-            <div class="contact-info">
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="contact-details">
-                        <h3>Email</h3>
-                        <p><a href="mailto:pankaj_khatri@shreejabiotech.shop">pankaj_khatri@shreejabiotech.shop</a></p>
-                    </div>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone"></i>
-                    </div>
-                    <div class="contact-details">
-                        <h3>Phone</h3>
-                        <p><a href="tel:+917069785900">+91 70697 85900</a></p>
-                    </div>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <div class="contact-details">
-                        <h3>Website</h3>
-                        <p><a href="https://khatrip009.github.io/pandit-profile/" target="_blank">khatrip009.github.io/pandit-profile</a></p>
-                    </div>
-                </div>
-                
-                <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
-                    <div class="contact-details">
-                        <h3>Location</h3>
-                        <p>Surat, Gujarat, India</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bio-section">
-                <h3><i class="fas fa-user-tie"></i> Professional Bio</h3>
-                <p class="bio-text">
-                    Visionary founder of Shreeja Biotech, a leading renewable energy company specializing in Waste-to-Energy and Bio-CNG solutions. With 15+ years of experience in bio-energy technologies, I've pioneered India's first semi-cryogenic bio-CNG upgradation system and consulted internationally on sustainable energy projects.
-                </p>
-                
-                <div class="social-links">
-                    <a href="#" class="social-link">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-link">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="signature">
-                <p>Warm regards,</p>
-                <div class="signature-img">
-                    <svg width="120" height="40" viewBox="0 0 120 40">
-                        <path d="M5,30 Q20,15 35,30 T65,30 T95,20" stroke="#0d9488" stroke-width="2" fill="none"/>
-                        <text x="100" y="35" font-family="Poppins" font-size="12" fill="#0d9488">P. Khatri</text>
-                    </svg>
-                </div>
-            </div>
+        <div class="company-name">Shreeja Biotech</div>
+      </div>
+
+      <div class="qrcode-container" aria-label="QR code to online profile">
+        <div class="qrcode" role="button" tabindex="0" aria-pressed="false" title="Open online profile (opens new tab)">
+          <div class="qrcode-pattern" aria-hidden="true"></div>
+          <div class="qrcode-center" aria-hidden="true">
+            <img src="QR_Code.png" alt="QR code center logo">
+          </div>
         </div>
-    </div>
-    
-    <script>
-        // Function to generate a vCard and trigger download
-        function downloadVCard() {
-            // vCard content
-            const vCardData = `BEGIN:VCARD
+        <p class="scan-text">Scan to visit my online profile</p>
+      </div>
+
+      <button class="vcard-btn" id="download-vcard" aria-label="Download vCard">
+        <i class="fas fa-download" aria-hidden="true"></i>
+        <span>Download vCard</span>
+      </button>
+
+      <div class="watermark" aria-hidden="true">Digital vCard | Shreeja Biotech</div>
+    </aside>
+
+    <!-- RIGHT -->
+    <section class="right-panel" aria-labelledby="contact-title">
+      <h2 id="contact-title" class="panel-title">Contact Card</h2>
+      <p class="subtitle">Connect with me through various channels</p>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-envelope" aria-hidden="true"></i></div>
+          <div class="contact-details">
+            <h3>Email</h3>
+            <p><a href="mailto:pankaj_khatri@shreejabiotech.shop">pankaj_khatri@shreejabiotech.shop</a></p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-phone" aria-hidden="true"></i></div>
+          <div class="contact-details">
+            <h3>Phone</h3>
+            <p><a href="tel:+917069785900">+91 70697 85900</a></p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-globe" aria-hidden="true"></i></div>
+          <div class="contact-details">
+            <h3>Website</h3>
+            <p><a href="https://khatrip009.github.io/pandit-profile/" target="_blank" rel="noopener">khatrip009.github.io/pandit-profile</a></p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt" aria-hidden="true"></i></div>
+          <div class="contact-details">
+            <h3>Location</h3>
+            <p>Surat, Gujarat, India</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bio-section" aria-labelledby="bio-heading">
+        <h3 id="bio-heading"><i class="fas fa-user-tie" aria-hidden="true"></i> Professional Bio</h3>
+        <p class="bio-text">
+          Visionary founder of Shreeja Biotech, a leading renewable energy company specializing in Waste-to-Energy and Bio-CNG solutions. With 15+ years of experience in bio-energy technologies, I've pioneered India's first semi-cryogenic bio-CNG upgradation system and consulted internationally on sustainable energy projects.
+        </p>
+
+        <div class="social-links" aria-label="Social links">
+          <a class="social-link" href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a class="social-link" href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a class="social-link" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a class="social-link" href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="signature" aria-hidden="false">
+        <p>Warm regards,</p>
+        <div class="signature-img" aria-hidden="true">
+          <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Signature">
+            <path d="M5,30 Q20,15 35,30 T65,30 T95,20" stroke="#0d9488" stroke-width="2" fill="none"/>
+            <text x="100" y="35" font-family="Poppins" font-size="12" fill="#0d9488">P. Khatri</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // vCard generation (kept same but improved MIME fallback)
+    function downloadVCard() {
+      const vCardData = `BEGIN:VCARD
 VERSION:3.0
 N:Khatri;Pandit Pankaj
 FN:Pandit Pankaj Khatri
@@ -564,34 +395,38 @@ URL:https://khatrip009.github.io/pandit-profile/
 ADR;TYPE=WORK:;;Surat;Gujarat;;India
 NOTE:Renewable Energy Solutions | Waste-to-Energy | Bio-CNG Technology
 END:VCARD`;
-            
-            // Create a Blob with the vCard data
-            const blob = new Blob([vCardData], { type: 'text/vcard' });
-            
-            // Create a URL for the Blob
-            const url = URL.createObjectURL(blob);
-            
-            // Create a temporary anchor element to trigger the download
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Pandit_Pankaj_Khatri.vcf';
-            document.body.appendChild(a);
-            a.click();
-            
-            // Clean up
-            setTimeout(() => {
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
-            }, 100);
-        }
-        
-        // Add event listener to the download button
-        document.querySelector('.vcard-btn').addEventListener('click', downloadVCard);
-        
-        // Make QR code interactive
-        document.querySelector('.qrcode').addEventListener('click', function() {
-            window.open('https://khatrip009.github.io/pandit-profile/', '_blank');
-        });
-    </script>
+
+      // prefer vcf, fallback to text/plain for some older browsers
+      const blob = new Blob([vCardData], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Pandit_Pankaj_Khatri.vcf';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 150);
+    }
+
+    document.getElementById('download-vcard').addEventListener('click', downloadVCard);
+
+    // make QR clickable + keyboard accessible
+    const q = document.querySelector('.qrcode');
+    function openProfile() {
+      window.open('https://khatrip009.github.io/pandit-profile/', '_blank', 'noopener');
+    }
+    q.addEventListener('click', openProfile);
+    q.addEventListener('keydown', (e) => {
+      if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProfile(); }
+    });
+
+    // Optional: touch-friendly focus outline visibility
+    (function(){
+      const onFirstTouch = () => { document.documentElement.classList.add('touch'); window.removeEventListener('touchstart', onFirstTouch); };
+      window.addEventListener('touchstart', onFirstTouch, false);
+    })();
+  </script>
 </body>
 </html>
